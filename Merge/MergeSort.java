@@ -1,6 +1,8 @@
 //Clayton Ezzell
 //Saturday March 17th, 2018
+package Merge;
 import java.util.*;
+
 
 public class MergeSort
 {
@@ -34,6 +36,7 @@ public class MergeSort
 			sort(mid + 1, upper);
 
 			// Merge the two sorted halves
+			System.out.println(lower + " " + mid + " " + upper);
 			merge(lower, mid, upper);
 		}
 		System.out.println(Arrays.toString(workingList.toArray()));
@@ -45,7 +48,7 @@ public class MergeSort
 		int rightPosition = mid + 1;
 		List<Integer> temp = new ArrayList();
 
-		while((leftPosition<=mid) && (rightPosition <= upper))
+		while((leftPosition<=mid) && (rightPosition <= upper-1))
 		{
 			if (workingList.get(leftPosition) < workingList.get(rightPosition))
 			{
@@ -72,11 +75,14 @@ public class MergeSort
 		while(rightPosition <= upper)
 		{
 			temp.add(workingList.get(rightPosition));
+
+			rightPosition++;
 		}
 
 		for(int i = 0;	i <= upper-lower+1; i++)
 		{
-			workingList.set(lower, temp.get(lower));
+			workingList.set(lower, temp.get(i));
+
 			lower++;
 		}
 	}
