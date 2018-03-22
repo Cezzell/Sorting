@@ -1,5 +1,5 @@
 //Clayton Ezzell
-//Saturday March 17th, 2018
+//Saturday March 21st, 2018
 package Merge;
 import java.util.*;
 
@@ -8,8 +8,12 @@ public class MergeSort
 {
 	private ArrayList<Integer> workingList;
 
+
 	public MergeSort(ArrayList<Integer> inputList)
 	{
+		/*
+			Simple Constructor requiring an input ArrayList
+		*/
 		workingList = inputList;
 	}
 
@@ -25,7 +29,7 @@ public class MergeSort
 
 		int mid;
 
-		if (upper - lower > 1)
+		if (upper > lower)
 		{
 			// Checks if the sublist is greater than size 1, any list of size 1 is sorted
 
@@ -36,22 +40,33 @@ public class MergeSort
 			sort(mid + 1, upper);
 
 			// Merge the two sorted halves
-			System.out.println(lower + " " + mid + " " + upper);
-			merge(lower, mid, upper);
+			merge(lower, mid + 1, upper);
 		}
 		System.out.println(Arrays.toString(workingList.toArray()));
 	}
 
 	public void merge(int lower, int mid, int upper)
 	{
+		// Control center of merging two sorted lists
+		// param lower: the lowest index of the two sorted lists
+		// param mid: the middle point that seperates the two lists (i.e. first
+		// point)
+		// param upper: the highest index of the two sorted lists
+
+		// leftPos and rightPos act as iterators
 		int leftPosition = lower;
-		int rightPosition = mid + 1;
+		int rightPosition = mid;
+
+		// For holding onto the correct order temporarily
 		List<Integer> temp = new ArrayList();
 
-		while((leftPosition<=mid) && (rightPosition <= upper-1))
+		// While still iterating...
+		while((leftPosition <= mid - 1) && (rightPosition <= upper))
 		{
+			// add the losest value....
 			if (workingList.get(leftPosition) < workingList.get(rightPosition))
 			{
+				// (left)
 				temp.add(workingList.get(leftPosition));
 
 				leftPosition++;
@@ -59,31 +74,40 @@ public class MergeSort
 
 			else
 			{
+				// (right)
 				temp.add(workingList.get(rightPosition));
-
+				// and increment the right iterator.
 				rightPosition++;
 			} 
 		}
 
-		while(leftPosition <= mid)
+		// When an iterator has reached the end of a list add the remainder 
+		// of the other list
+
+		// either the left...
+		while(leftPosition <= mid-1)
 		{
 			temp.add(workingList.get(leftPosition));
 
 			leftPosition++;
 		}
 
+		// or the right.
 		while(rightPosition <= upper)
 		{
 			temp.add(workingList.get(rightPosition));
 
 			rightPosition++;
 		}
-
-		for(int i = 0;	i <= upper-lower+1; i++)
+		
+		// Reuse an iterrator to ...
+		leftPosition = lower;
+		for(int i = 0; i < upper-lower+1; i++)
 		{
-			workingList.set(lower, temp.get(i));
-
-			lower++;
+			// rearrange the original list to look like the temp we sorted.
+			workingList.set(leftPosition, temp.get(i));
+			// Don't forget to increase the iterator.
+			leftPosition++;
 		}
 	}
 }
